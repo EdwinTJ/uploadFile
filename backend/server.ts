@@ -20,6 +20,16 @@ app.post("/api/files", async( req,res)=>{
 
 })
 
+app.get("/api/users",async (req,res)=>{
+    //TODO:
+    // 1. Extract query param
+    // 2. Validate param
+    // 3. Filter data with query
+    // 4. Retrun 200 with data filtered
+
+    return res.status(200).json({})
+
+})
 // Start Server
 app.listen(port, () =>{
     console.log(`Server Running at port:${port}`)
