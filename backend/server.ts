@@ -25,19 +25,20 @@ app.post("/api/files",upload.single("file"), async( req,res)=>{
     if(file.mimetype != "text/csv"){
         return res.status(500).json({message:"File must be CSV"})
     }
-    // 4. Convert file to a string
+    let json :Array<Record<string,string>> = []
     try {
-        const result = Buffer.from(file.buffer).toString("utf-8");
-        // 5. transform string to csv
-        const csv = csvToJson.csvStringToJson(result)
-
+        // 4. Convert file CSV to a string
+        const csv = Buffer.from(file.buffer).toString("utf-8");
+        // 5. transform string to json
+        json = csvToJson.csvStringToJson(csv)
     } catch (error) {
-        
+        return res.status(500).json({message:"Error parsing file"})
     }
     // 6. Save JSON data
+    userData = json
     // 7. Retrun 200 with a message and object wiht info.
 
-    return res.status(200).json({message:"The file was successfully uploaded"})
+    return res.status(200).json({data: userData,message:"The file was successfully uploaded"})
 
 })
 
