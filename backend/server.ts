@@ -28,7 +28,7 @@ app.post("/api/files",upload.single("file"), async( req,res)=>{
     let json :Array<Record<string,string>> = []
     try {
         // 4. Convert file CSV to a string
-        const csv = Buffer.from(file.buffer).toString("utf-8");
+        const csv = Buffer.from(file.buffer).toString("utf-8")
         // 5. transform string to json
         json = csvToJson.csvStringToJson(csv)
     } catch (error) {
