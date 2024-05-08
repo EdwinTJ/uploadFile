@@ -4,7 +4,7 @@ import multer from "multer"
 import csvToJson from "convert-csv-to-json"
 
 const app = express()
-const port = process.env.PORT ?? 3000;
+const port = process.env.PORT ?? 3000
 
 app.use(cors()) // Enable cors
 
@@ -45,11 +45,29 @@ app.post("/api/files",upload.single("file"), async( req,res)=>{
 app.get("/api/users",async (req,res)=>{
     //TODO:
     // 1. Extract query param
+    const {q} = req.query
     // 2. Validate param
+    if(!q){
+        return res.status(500).json({
+            message :'Query parameter "q" is required'
+        })
+    }
+    if(Array.isArray(q)){
+        return res.status(500).json({
+            message :'Query parameter "q" is required'
+        })
+    }
     // 3. Filter data with query
+    // The filter should search for partial matches and be case insensitive.
+    const search = q.toString().toLowerCase();
+    const filterData = userData.filter(row =>{
+        return Object
+        .values(row)
+        .some(value => value.toLowerCase().includes(search))
+    })
     // 4. Retrun 200 with data filtered
 
-    return res.status(200).json({})
+    return res.status(200).json({data : filterData})
 
 })
 // Start Server
