@@ -3,6 +3,7 @@ import "./App.css";
 import { uploadFile } from "./services/upload";
 import { Toaster, toast } from "sonner";
 import { type Data } from "./types";
+import { Search } from "./search/search";
 const APP_STATUS = {
   IDLE: "idle",
   ERROR: "error", // any error
@@ -79,6 +80,8 @@ function App() {
             )}
           </form>
         )}
+
+        {appStatus === APP_STATUS.READY_USAGE && <Search initialData={data} />}
       </div>
     </>
   );
