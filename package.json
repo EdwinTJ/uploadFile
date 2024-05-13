@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm --filter '**' dev",
+    "dev:backend": "pnpm --filter 'backend' dev",
+    "dev:frontend": "pnpm --filter 'frontend' dev",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "author": "Edwin Silvestre",
@@ -15,7 +18,5 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6"
-
   }
-
 }
