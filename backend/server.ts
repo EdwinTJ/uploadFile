@@ -38,7 +38,6 @@ app.post("/api/files", upload.single("file"), async (req, res) => {
   // 6. Save JSON data
   userData = json;
   // 7. Retrun 200 with a message and object wiht info.
-  console.log(userData);
   return res
     .status(200)
     .json({ data: userData, message: "The file was successfully uploaded" });

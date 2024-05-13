@@ -2,10 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Data } from "../types";
 import { searchData } from "../services/search";
 import { toast } from "sonner";
+import { useDebounce } from "@uidotdev/usehooks";
 
+const DEBOUNCE_TIME = 500;
 export const Search = ({ initialData }: { initialData: Data }) => {
   const [data, setData] = useState<Data>(initialData);
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>(() => {
+    const serachParams = new URLSearchParams(window.location.search);
+    return serachParams.get("q") ?? "";
+  });
+
+  const debaunceSearch = useDebounce(search, DEBOUNCE_TIME);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -13,18 +20,18 @@ export const Search = ({ initialData }: { initialData: Data }) => {
 
   useEffect(() => {
     const newPathname =
-      search === "" ? window.location.pathname : `?q=${search}`;
+      debaunceSearch === "" ? window.location.pathname : `?q=${debaunceSearch}`;
 
     window.history.pushState({}, "", newPathname);
-  }, [search]);
+  }, [debaunceSearch]);
 
   // Call API
   useEffect(() => {
-    if (!search) {
+    if (!debaunceSearch) {
       setData(initialData);
       return;
     }
-    searchData(search).then((response) => {
+    searchData(debaunceSearch).then((response) => {
       const [err, newData] = response;
       if (err) {
         toast.error(err.message);
@@ -35,7 +42,7 @@ export const Search = ({ initialData }: { initialData: Data }) => {
         setData(newData);
       }
     });
-  }, [search, initialData]);
+  }, [debaunceSearch, initialData]);
   return (
     <div>
       <h1>Search</h1>
@@ -44,6 +51,7 @@ export const Search = ({ initialData }: { initialData: Data }) => {
           onChange={handleSearch}
           type="search"
           placeholder="Search info..."
+          defaultValue={search}
         />
       </form>
       <ul>
