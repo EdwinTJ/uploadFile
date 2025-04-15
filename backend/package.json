@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Back enf for upload files",
   "main": "server.ts",
+  "type": "module",
   "scripts": {
-    "dev": "PORT=3000 ts-node server.ts",
+    "dev": "PORT=3000 tsx server.ts",
     "start": "PORT=3000 ts-node server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +18,7 @@
     "@types/node": "^20.12.7",
     "ts-node": "^10.9.2",
     "tslib": "^2.6.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.4.5"
   },
   "dependencies": {
